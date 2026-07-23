@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- 加载中提示 -->
+    <TextView
+        android:id="@+id/tvLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/loading"
+        android:textColor="#FFFFFF"
+        android:textSize="32sp" />
+
+    <!-- 频道网格 -->
+    <androidx.leanback.widget.VerticalGridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingStart="80dp"
+        android:paddingTop="60dp"
+        android:paddingEnd="80dp"
+        android:paddingBottom="60dp"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+    <path
+        android:fillColor="#1E88E5"
+        android:pathData="M0,0h320v180h-320z" />
+    <text
+        android:text="简易电视"
+        android:textColor="#FFFFFF"
+        android:textSize="48"
+        android:textStyle="bold"
+        android:x="160"
+        android:y="105"
+        android:textAlignment="center" />
+</vector>
