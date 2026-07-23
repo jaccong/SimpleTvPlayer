@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 object ConfigLoader {
 
     // ====== 在此处修改为你的配置文件地址 ======
-    const val CONFIG_URL = "https://your-domain.com/channels.json"
+    const val CONFIG_URL = "https://j.877622.xyz/api/get-json"
     // =========================================
 
     private val client = OkHttpClient.Builder()
