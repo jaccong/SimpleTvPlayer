@@ -1,62 +1,47 @@
 package com.simple.tvplayer
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
+import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
 
 class PlayerActivity : AppCompatActivity() {
+    private var player: ExoPlayer? = null
 
     companion object {
-        const val EXTRA_CHANNEL_NAME = "channel_name"
-        const val EXTRA_CHANNEL_URL = "channel_url"
+        // 对外跳转方法 jump()，MainActivity 调用这个
+        fun jump(context: android.content.Context, videoUrl: String) {
+            val intent = Intent(context, PlayerActivity::class.java)
+            intent.putExtra("play_url", videoUrl)
+            context.startActivity(intent)
+        }
     }
-
-    private lateinit var playerView: PlayerView
-    private lateinit var tvChannelName: TextView
-    private var player: ExoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
+        val playerView = findViewById<PlayerView>(R.id.player_view)
+        val videoUrl = intent.getStringExtra("play_url") ?: return
 
-        playerView = findViewById(R.id.playerView)
-        tvChannelName = findViewById(R.id.tvChannelName)
-
-        val channelName = intent.getStringExtra(EXTRA_CHANNEL_NAME) ?: ""
-        val channelUrl = intent.getStringExtra(EXTRA_CHANNEL_URL) ?: ""
-
-        tvChannelName.text = channelName
-
-        // 3秒后自动隐藏频道名称
-        tvChannelName.postDelayed({
-            tvChannelName.visibility = View.GONE
-        }, 3000)
-
-        initializePlayer(channelUrl)
+        // 初始化播放器
+        player = ExoPlayer.Builder(this).build()
+        playerView.player = player
+        val mediaItem = MediaItem.fromUri(videoUrl)
+        player?.setMediaItem(mediaItem)
+        player?.prepare()
+        player?.play()
     }
 
-    private fun initializePlayer(url: String) {
-        player = ExoPlayer.Builder(this).build().also { exoPlayer ->
-            playerView.player = exoPlayer
-            val mediaItem = MediaItem.fromUri(url)
-            exoPlayer.setMediaItem(mediaItem)
-            exoPlayer.prepare()
-            exoPlayer.playWhenReady = true
+    // 遥控器返回键退出播放
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish()
+            return true
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        player?.playWhenReady = true
-    }
-
-    override fun onStop() {
-        super.onStop()
-        player?.playWhenReady = false
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun onDestroy() {
